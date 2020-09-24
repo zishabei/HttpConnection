@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">TokenDemo</string>
+    <string name="title_home">独自トークン</string>
+    <string name="title_dashboard">定義情報取得</string>
+    <string name="title_notifications">端末データ登録</string>
+    <string name="sdkTokenTitle">独自トークンAPI(取得、削除、更新):</string>
+    <string name="api">API：</string>
+    <string name="accessToken">Access-Token:</string>
+    <string name="tokenGet">取得</string>
+    <string name="tokenDelete">削除</string>
+    <string name="tokenRefresh">更新</string>
+    <string name="resultTextview">Response結果/エラー内容：</string>
+    <string name="accessTokenHint">AccessTokenを入力してください。</string>
+    <string name="apiHint">APIを入力してください。</string>
+    <string name="jsonStringHint">Jsonを入力してください。</string>
+    <string name="parametersApi">定義情報取得API:</string>
+    <string name="uploadApi">端末データ登録API:</string>
+    <string name="json">登録 Jsonデータ: </string>
+    <string name="onlyToken">独自Token:</string>
+    <string name="onlyTokenHint">独自Tokenを入力してください。</string>
+    <string name="requestParameters">定義情報取得</string>
+    <string name="uploadData">端末データ登録</string>
+    <string name="requestedToken">取得済み独自Token:</string>
+</resources>
