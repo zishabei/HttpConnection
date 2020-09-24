@@ -10,6 +10,8 @@
             type="com.example.tokendemo.ui.token.SdkTokenViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="com.example.tokendemo.HttpConnect" />
     </data>
 
 
@@ -142,7 +144,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_selector"
-                android:onClick="@{()-> sdkTokenData.requestToken()}"
+                android:onClick="@{()-> sdkTokenData.operateToken(HttpConnect.METHOD_POST)}"
                 android:text="@string/tokenGet"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toStartOf="@+id/tokenDeleteBtn"
@@ -157,7 +159,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/btn_selector"
-                android:onClick="@{()-> sdkTokenData.deleteToken()}"
+                android:onClick="@{()-> sdkTokenData.operateToken(HttpConnect.METHOD_DELETE)}"
                 android:text="@string/tokenDelete"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toStartOf="@+id/refreshTokenBtn"
@@ -171,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_selector"
-                android:onClick="@{()-> sdkTokenData.refreshToken()}"
+                android:onClick="@{()-> sdkTokenData.operateToken(HttpConnect.METHOD_PUT)}"
                 android:text="@string/tokenRefresh"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"

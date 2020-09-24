@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -183,6 +184,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:text="@{uploadData.response}"
                     android:background="@drawable/bg_edittext_normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -204,6 +206,23 @@
                     android:checked="@{uploadData.jsonChecked}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
                     app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+                <TextView
+                    android:id="@+id/resetJsonStrBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="19dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{()->uploadData.resetJsonStr()}"
+                    android:text="@string/resetjsonstring"
+                    android:textColor="#1296db"
+                    app:drawableRightCompat="@drawable/ic_reset"
+                    app:layout_constraintBottom_toTopOf="@+id/jsonEt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/jsonCheckBox"
+                    app:layout_constraintTop_toBottomOf="@+id/separateTokenEt"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

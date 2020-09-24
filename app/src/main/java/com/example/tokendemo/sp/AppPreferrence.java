@@ -8,11 +8,16 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class AppPreferrence {
 
+    private static final String TAG = "AppPreferrence";
     private static final String PREF_TOKEN_URL = "pref_token_url";
     private static final String PREF_ACCESS_TOKEN = "pref_access_token";
 
@@ -80,7 +85,10 @@ public class AppPreferrence {
     }
 
     private static String getDefaluteJsonString() {
+
         try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.JAPAN);
+            String str = format.format(new Date());
             //"usingCaFlag":0,"radioPhoneType":1,"localeLangCode":"en",
             JSONObject deviceDataObj = new JSONObject();
             deviceDataObj.put("usingCaFlag", 0);
@@ -88,9 +96,9 @@ public class AppPreferrence {
             deviceDataObj.put("localeLangCode", "en");
             JSONObject obj = new JSONObject();
             obj.put("deviceData", deviceDataObj);
-            obj.put("deviceDate", new Date(System.currentTimeMillis()));
+            obj.put("deviceDate", str);
             return obj.toString(4);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";

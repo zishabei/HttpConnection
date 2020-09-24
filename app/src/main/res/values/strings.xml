@@ -21,4 +21,6 @@
     <string name="requestParameters">定義情報取得</string>
     <string name="uploadData">端末データ登録</string>
     <string name="requestedToken">取得済み独自Token:</string>
+    <string name="todo">TODO</string>
+    <string name="resetjsonstring">ResetJsonString</string>
 </resources>

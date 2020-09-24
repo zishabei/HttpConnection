@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.tokendemo.HttpConnect;
 import com.example.tokendemo.sp.AppPreferrence;
 
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class DataUploadViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> mShowLoading;
     private MutableLiveData<Boolean> mJsonChecked;
     private MutableLiveData<Boolean> mRightSeparateChecked;
+    private MutableLiveData<String> mResponse;
 
     public DataUploadViewModel(@NonNull Application application) {
         super(application);
@@ -102,6 +104,21 @@ public class DataUploadViewModel extends AndroidViewModel {
         mRightSeparateChecked.postValue(checked);
     }
 
+    public void resetJsonStr() {
+        AppPreferrence.setJsonString(getApplication(), null);
+        String jsonString = AppPreferrence.getJsonString(getApplication());
+        AppPreferrence.setJsonString(getApplication(), jsonString);
+        mJsonStr.postValue(jsonString);
+    }
+
+    public MutableLiveData<String> getResponse() {
+        if (mResponse == null) {
+            mResponse = new MutableLiveData<>("");
+        }
+        return mResponse;
+    }
+
+
     public void upload() {
         if (mSeparateToken.getValue() == null || mSeparateToken.getValue().length() == 0) {
             Toast.makeText(getApplication(), "独自Tokenを取得してから、再度試してください。", Toast.LENGTH_SHORT).show();
@@ -113,11 +130,23 @@ public class DataUploadViewModel extends AndroidViewModel {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.currentThread().sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                Boolean separateCheckedValue = mRightSeparateChecked.getValue();
+                Boolean jsonCheckedValue = mJsonChecked.getValue();
+                if (separateCheckedValue == null || jsonCheckedValue == null) {
+                    return;
                 }
+                String response;
+                if (separateCheckedValue && jsonCheckedValue) {
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mSeparateToken.getValue(), mJsonStr.getValue());
+                } else if (separateCheckedValue) {
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mSeparateToken.getValue(), null);
+                } else if (jsonCheckedValue) {
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), null, mJsonStr.getValue());
+                } else {
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), null, null);
+                }
+                mResponse.postValue(response);
+                // TODO: 2020/09/24 response处理
                 mShowLoading.postValue(false);
             }
         });

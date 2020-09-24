@@ -151,13 +151,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
                 app:layout_constraintVertical_bias="0.0">
 
+                <TextView
+                    android:text="@{parametersData.response}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp" />
+
             </ScrollView>
 
             <CheckBox
                 android:id="@+id/separaterTokenCheckBox"
-                android:checked="@{parametersData.centerSeparateTokenChecked}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{parametersData.centerSeparateTokenChecked}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
                 app:layout_constraintStart_toEndOf="@+id/textView2" />
         </androidx.constraintlayout.widget.ConstraintLayout>

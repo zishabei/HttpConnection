@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.tokendemo.HttpConnect;
 import com.example.tokendemo.sp.AppPreferrence;
 
 import java.util.concurrent.Executors;
@@ -18,6 +19,7 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
     private MutableLiveData<String> mSeparateToken;
     private MutableLiveData<Boolean> mShowLoading;
     private MutableLiveData<Boolean> mCenterSeparateTokenChecked;
+    private MutableLiveData<String> mResponse;
 
     public DefinitionParametersViewModel(@NonNull Application application) {
         super(application);
@@ -70,6 +72,13 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
         mCenterSeparateTokenChecked.postValue(checked);
     }
 
+    public MutableLiveData<String> getResponse() {
+        if (mResponse == null) {
+            mResponse = new MutableLiveData<>("");
+        }
+        return mResponse;
+    }
+
     public void getParameters() {
         if (mSeparateToken.getValue() == null || mSeparateToken.getValue().length() == 0) {
             Toast.makeText(getApplication(), "独自Tokenを取得してから、再度試してください。", Toast.LENGTH_SHORT).show();
@@ -80,11 +89,19 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.currentThread().sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                String response;
+                Boolean separateTokenChecked = mCenterSeparateTokenChecked.getValue();
+                if (separateTokenChecked == null) {
+                    return;
                 }
+                if (separateTokenChecked) {
+                    response = HttpConnect.getParameters(mDownloadApi.getValue(), mSeparateToken.getValue());
+                } else {
+                    response = HttpConnect.getParameters(mDownloadApi.getValue(), null);
+                }
+                mResponse.postValue(response);
+                // TODO: 2020/09/24 response处理
+
                 mShowLoading.postValue(false);
             }
         });

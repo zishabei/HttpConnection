@@ -1,13 +1,10 @@
 package com.example.tokendemo.ui.token;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.tokendemo.HttpConnect;
 import com.example.tokendemo.sp.AppPreferrence;
@@ -22,7 +19,7 @@ public class SdkTokenViewModel extends AndroidViewModel {
     private MutableLiveData<String> mTokenUrl;
     private MutableLiveData<String> mAccessToken;
     private MutableLiveData<String> mSeparateToken;
-    private MutableLiveData<String> mRequstTokenResponse;
+    private MutableLiveData<String> mOperateTokenResponse;
     private MutableLiveData<Boolean> mShowLoading;
     private MutableLiveData<Boolean> mAccessTokenChecked;
     private MutableLiveData<Boolean> mLeftSeparateTokenChecked;
@@ -79,10 +76,10 @@ public class SdkTokenViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<String> getRequstTokenResponse() {
-        if (mRequstTokenResponse == null) {
-            mRequstTokenResponse = new MutableLiveData<>("");
+        if (mOperateTokenResponse == null) {
+            mOperateTokenResponse = new MutableLiveData<>("");
         }
-        return mRequstTokenResponse;
+        return mOperateTokenResponse;
     }
 
     public MutableLiveData<Boolean> getAccessTokenChecked() {
@@ -111,61 +108,36 @@ public class SdkTokenViewModel extends AndroidViewModel {
         mLeftSeparateTokenChecked.postValue(checked);
     }
 
-    public void requestToken() {
+    public void operateToken(final String method) {
         // TODO: 2020/09/23
-//        Toast.makeText(getApplication(), "取得", Toast.LENGTH_SHORT).show();
         mShowLoading.postValue(true);
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.currentThread().sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                String response;
+                Boolean accessTokenIsChecked = mAccessTokenChecked.getValue();
+                Boolean separateTokenIsChecked = mLeftSeparateTokenChecked.getValue();
+                if (accessTokenIsChecked == null || separateTokenIsChecked == null) {
+                    return;
                 }
-                String response = HttpConnect.requestSeparateToken(mTokenUrl.getValue(), mAccessToken.getValue());
+                if (accessTokenIsChecked && separateTokenIsChecked) {
+                    response = HttpConnect.operateSeparateToken(method, mTokenUrl.getValue(), mAccessToken.getValue(), mSeparateToken.getValue());
+                } else if (accessTokenIsChecked) {
+                    response = HttpConnect.operateSeparateToken(method, mTokenUrl.getValue(), mAccessToken.getValue(), null);
+                } else if (separateTokenIsChecked) {
+                    response = HttpConnect.operateSeparateToken(method, mTokenUrl.getValue(), null, mSeparateToken.getValue());
+                } else {
+                    response = HttpConnect.operateSeparateToken(method, mTokenUrl.getValue(), null, null);
+                }
+
                 try {
                     JSONObject object = new JSONObject(response);
                     mSeparateToken.postValue(object.getString("message"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mRequstTokenResponse.postValue(response);
+                mOperateTokenResponse.postValue(response);
 
-                mShowLoading.postValue(false);
-            }
-        });
-    }
-
-    public void deleteToken() {
-        // TODO: 2020/09/23
-//        Toast.makeText(getApplication(), "削除", Toast.LENGTH_SHORT).show();
-        mShowLoading.postValue(true);
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.currentThread().sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mShowLoading.postValue(false);
-            }
-        });
-    }
-
-    public void refreshToken() {
-        // TODO: 2020/09/23
-//        Toast.makeText(getApplication(), "更新", Toast.LENGTH_SHORT).show();
-        mShowLoading.postValue(true);
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.currentThread().sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 mShowLoading.postValue(false);
             }
         });
