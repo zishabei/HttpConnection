@@ -120,11 +120,6 @@ public class DataUploadViewModel extends AndroidViewModel {
 
 
     public void upload() {
-        if (mSeparateToken.getValue() == null || mSeparateToken.getValue().length() == 0) {
-            Toast.makeText(getApplication(), "独自Tokenを取得してから、再度試してください。", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // TODO: 2020/09/23
         // TODO: 2020/09/23
         mShowLoading.postValue(true);
         Executors.newSingleThreadExecutor().execute(new Runnable() {
