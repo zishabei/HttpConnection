@@ -52,11 +52,11 @@
             <EditText
                 android:id="@+id/separateTokenEt"
                 style="@style/editTextStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:hint="@string/onlyTokenHint"
-                android:inputType="textPersonName"
+                android:maxLines="2"
                 android:text="@{parametersData.separateToken}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:hint="@string/apiHint"
+                android:maxLines="2"
                 android:text="@{parametersData.parametersApi}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -109,7 +110,6 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/onlyToken"
                 android:textColor="#000000"
@@ -117,7 +117,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/separaterTokenCheckBox"
                 app:layout_constraintTop_toBottomOf="@+id/parametersApiEt" />
 
             <Button
@@ -152,10 +152,10 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <TextView
-                    android:text="@{parametersData.response}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp" />
+                    android:padding="4dp"
+                    android:text="@{parametersData.response}" />
 
             </ScrollView>
 
@@ -163,9 +163,10 @@
                 android:id="@+id/separaterTokenCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:checked="@{parametersData.centerSeparateTokenChecked}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

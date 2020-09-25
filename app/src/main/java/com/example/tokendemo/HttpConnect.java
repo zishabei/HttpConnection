@@ -29,8 +29,8 @@ public class HttpConnect {
 
     public static String operateSeparateToken(String method, String urlStr, String accessToken, String separateToken) {
         HttpURLConnection urlConn = null;
+
         try {
-            // TODO: 2020/09/24
             URL url = new URL(urlStr);
             urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setRequestMethod(method);
@@ -42,17 +42,14 @@ public class HttpConnect {
             if (separateToken != null) {
                 urlConn.setRequestProperty("API-Token", separateToken);
             }
-            // TODO: 2020/09/18
-            urlConn.setRequestProperty(ACCEPT_CHARSET, "UTF-8");
-            urlConn.setRequestProperty(CONTENT_TYPE, "application/json;charset=utf-8");
             urlConn.connect();
-
-            JSONObject result = readStreamedJSON(urlConn.getInputStream());
+            InputStream inputStream = urlConn.getInputStream();
+            JSONObject result = readStreamedJSON(inputStream);
             Log.i(TAG, "operate separate token response:\n" + result);
             return result.toString(4);
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            return e.toString();
         } finally {
             if (urlConn != null) {
                 urlConn.disconnect();
@@ -76,12 +73,13 @@ public class HttpConnect {
             urlConn.setRequestProperty(CONTENT_TYPE, "application/json;charset=utf-8");
             urlConn.connect();
 
-            JSONObject result = readStreamedJSON(urlConn.getInputStream());
+            InputStream inputStream = urlConn.getInputStream();
+            JSONObject result = readStreamedJSON(inputStream);
             Log.i(TAG, "get parameters response:\n" + result);
             return result.toString(4);
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            return e.toString();
         } finally {
             if (urlConn != null) {
                 urlConn.disconnect();
@@ -116,7 +114,7 @@ public class HttpConnect {
             return result.toString(4);
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            return e.toString();
         } finally {
             if (urlConn != null) {
                 urlConn.disconnect();

@@ -129,16 +129,16 @@ public class SdkTokenViewModel extends AndroidViewModel {
                 } else {
                     response = HttpConnect.operateSeparateToken(method, mTokenUrl.getValue(), null, null);
                 }
-
-                try {
-                    JSONObject object = new JSONObject(response);
-                    mSeparateToken.postValue(object.getString("message"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                mOperateTokenResponse.postValue(response);
-
                 mShowLoading.postValue(false);
+                mOperateTokenResponse.postValue(response);
+                if (HttpConnect.METHOD_POST.equals(method)) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        mSeparateToken.postValue(jsonResponse.getString("apiToken"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

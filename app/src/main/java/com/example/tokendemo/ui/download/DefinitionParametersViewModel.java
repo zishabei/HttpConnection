@@ -80,7 +80,6 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
     }
 
     public void getParameters() {
-        // TODO: 2020/09/23
         mShowLoading.postValue(true);
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
@@ -96,8 +95,6 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
                     response = HttpConnect.getParameters(mDownloadApi.getValue(), null);
                 }
                 mResponse.postValue(response);
-                // TODO: 2020/09/24 response处理
-
                 mShowLoading.postValue(false);
             }
         });
