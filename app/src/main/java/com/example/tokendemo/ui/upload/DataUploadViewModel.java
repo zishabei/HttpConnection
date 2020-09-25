@@ -141,7 +141,6 @@ public class DataUploadViewModel extends AndroidViewModel {
                     response = HttpConnect.uploadData(mUpLoadApi.getValue(), null, null);
                 }
                 mResponse.postValue(response);
-                // TODO: 2020/09/24 response处理
                 mShowLoading.postValue(false);
             }
         });
