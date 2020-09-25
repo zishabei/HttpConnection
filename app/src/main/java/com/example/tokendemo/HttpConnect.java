@@ -1,6 +1,5 @@
 package com.example.tokendemo;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -43,10 +42,18 @@ public class HttpConnect {
                 urlConn.setRequestProperty("API-Token", separateToken);
             }
             urlConn.connect();
-            InputStream inputStream = urlConn.getInputStream();
-            JSONObject result = readStreamedJSON(inputStream);
-            Log.i(TAG, "operate separate token response:\n" + result);
-            return result.toString(4);
+            int responseCode = urlConn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConn.getInputStream();
+                JSONObject result = readStreamedJSON(inputStream);
+                Log.i(TAG, "operate separate token response:\n" + result);
+                return result.toString(4);
+            } else {
+                InputStream errorStream = urlConn.getErrorStream();
+                JSONObject result = readStreamedJSON(errorStream);
+                Log.i(TAG, "operate separate token response:\n" + result);
+                return result.toString(4);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return e.toString();
@@ -73,10 +80,19 @@ public class HttpConnect {
             urlConn.setRequestProperty(CONTENT_TYPE, "application/json;charset=utf-8");
             urlConn.connect();
 
-            InputStream inputStream = urlConn.getInputStream();
-            JSONObject result = readStreamedJSON(inputStream);
-            Log.i(TAG, "get parameters response:\n" + result);
-            return result.toString(4);
+            int responseCode = urlConn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConn.getInputStream();
+                JSONObject result = readStreamedJSON(inputStream);
+                Log.i(TAG, "get parameters response:\n" + result);
+                return result.toString(4);
+            } else {
+                InputStream errorStream = urlConn.getErrorStream();
+                JSONObject result = readStreamedJSON(errorStream);
+                Log.i(TAG, "get parameters response:\n" + result);
+                return result.toString(4);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return e.toString();
@@ -109,9 +125,18 @@ public class HttpConnect {
                 out.close();
             }
 
-            JSONObject result = readStreamedJSON(urlConn.getInputStream());
-            Log.i(TAG, "get parameters response:\n" + result);
-            return result.toString(4);
+            int responseCode = urlConn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConn.getInputStream();
+                JSONObject result = readStreamedJSON(inputStream);
+                Log.i(TAG, "get parameters response:\n" + result);
+                return result.toString(4);
+            } else {
+                InputStream errorStream = urlConn.getErrorStream();
+                JSONObject result = readStreamedJSON(errorStream);
+                Log.i(TAG, "get parameters response:\n" + result);
+                return result.toString(4);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return e.toString();

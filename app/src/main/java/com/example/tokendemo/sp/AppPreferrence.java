@@ -20,6 +20,7 @@ public class AppPreferrence {
     private static final String TAG = "AppPreferrence";
     private static final String PREF_TOKEN_URL = "pref_token_url";
     private static final String PREF_ACCESS_TOKEN = "pref_access_token";
+    private static final String PREF_DEFAULT_SEPARATE_TOKEN = "pref_default_Separate_token";
 
 
     private static final String PREF_DOWNLOAD_URL = "pref_download_url";
@@ -44,14 +45,24 @@ public class AppPreferrence {
         return pref.getString(PREF_TOKEN_URL, "https://st-api.datatakt.jp/v1/token");
     }
 
-    public static void setAccessToken(Context context, String url) {
+    public static void setAccessToken(Context context, String accessToken) {
         AppPreferenceManager pref = new AppPreferenceManager(context);
-        pref.putString(PREF_ACCESS_TOKEN, url);
+        pref.putString(PREF_ACCESS_TOKEN, accessToken);
     }
 
     public static String getAccessToken(Context context) {
         AppPreferenceManager pref = new AppPreferenceManager(context);
-        return pref.getString(PREF_ACCESS_TOKEN, "0000");
+        return pref.getString(PREF_ACCESS_TOKEN, "TEST-CASIS-TOKEN");
+    }
+
+    public static void setDefaultSeparateToken(Context context, String url) {
+        AppPreferenceManager pref = new AppPreferenceManager(context);
+        pref.putString(PREF_DEFAULT_SEPARATE_TOKEN, url);
+    }
+
+    public static String getDefaultSeparateToken(Context context) {
+        AppPreferenceManager pref = new AppPreferenceManager(context);
+        return pref.getString(PREF_DEFAULT_SEPARATE_TOKEN, "ffffffff-ffff-ffff-ffff-ffffffffffff");
     }
 
     public static void setDownloadUrl(Context context, String url) {

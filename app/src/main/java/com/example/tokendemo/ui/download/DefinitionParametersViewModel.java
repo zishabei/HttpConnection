@@ -16,7 +16,7 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
 
 
     private MutableLiveData<String> mDownloadApi;
-    private MutableLiveData<String> mSeparateToken;
+    private MutableLiveData<String> mDefaultSeparateToken;
     private MutableLiveData<Boolean> mShowLoading;
     private MutableLiveData<Boolean> mCenterSeparateTokenChecked;
     private MutableLiveData<String> mResponse;
@@ -40,16 +40,16 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<String> getSeparateToken() {
-        if (mSeparateToken == null) {
-            String token = AppPreferrence.getSeparateToken(getApplication());
-            mSeparateToken = new MutableLiveData<>(token);
+        if (mDefaultSeparateToken == null) {
+            String token = AppPreferrence.getDefaultSeparateToken(getApplication());
+            mDefaultSeparateToken = new MutableLiveData<>(token);
         }
-        return mSeparateToken;
+        return mDefaultSeparateToken;
     }
 
     public void setSeparateToken(String token) {
-        AppPreferrence.setSeparateToken(getApplication(), token);
-        mSeparateToken.postValue(token);
+        AppPreferrence.setDefaultSeparateToken(getApplication(), token);
+        mDefaultSeparateToken.postValue(token);
     }
 
     public MutableLiveData<Boolean> getShowLoading() {
@@ -90,7 +90,7 @@ public class DefinitionParametersViewModel extends AndroidViewModel {
                     return;
                 }
                 if (separateTokenChecked) {
-                    response = HttpConnect.getParameters(mDownloadApi.getValue(), mSeparateToken.getValue());
+                    response = HttpConnect.getParameters(mDownloadApi.getValue(), mDefaultSeparateToken.getValue());
                 } else {
                     response = HttpConnect.getParameters(mDownloadApi.getValue(), null);
                 }

@@ -21,7 +21,7 @@ public class DataUploadViewModel extends AndroidViewModel {
 
     private static final String TAG = "DataUploadViewModel";
     private MutableLiveData<String> mUpLoadApi;
-    private MutableLiveData<String> mSeparateToken;
+    private MutableLiveData<String> mDefaultSeparateToken;
     private MutableLiveData<String> mJsonStr;
     private MutableLiveData<Boolean> mShowLoading;
     private MutableLiveData<Boolean> mJsonChecked;
@@ -46,16 +46,16 @@ public class DataUploadViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<String> getSeparateToken() {
-        if (mSeparateToken == null) {
-            String token = AppPreferrence.getSeparateToken(getApplication());
-            mSeparateToken = new MutableLiveData<>(token);
+        if (mDefaultSeparateToken == null) {
+            String token = AppPreferrence.getDefaultSeparateToken(getApplication());
+            mDefaultSeparateToken = new MutableLiveData<>(token);
         }
-        return mSeparateToken;
+        return mDefaultSeparateToken;
     }
 
     public void setSeparateToken(String token) {
-        AppPreferrence.setSeparateToken(getApplication(), token);
-        mSeparateToken.postValue(token);
+        AppPreferrence.setDefaultSeparateToken(getApplication(), token);
+        mDefaultSeparateToken.postValue(token);
     }
 
     public MutableLiveData<String> getJsonStr() {
@@ -132,9 +132,9 @@ public class DataUploadViewModel extends AndroidViewModel {
                 }
                 String response;
                 if (separateCheckedValue && jsonCheckedValue) {
-                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mSeparateToken.getValue(), mJsonStr.getValue());
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mDefaultSeparateToken.getValue(), mJsonStr.getValue());
                 } else if (separateCheckedValue) {
-                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mSeparateToken.getValue(), null);
+                    response = HttpConnect.uploadData(mUpLoadApi.getValue(), mDefaultSeparateToken.getValue(), null);
                 } else if (jsonCheckedValue) {
                     response = HttpConnect.uploadData(mUpLoadApi.getValue(), null, mJsonStr.getValue());
                 } else {
